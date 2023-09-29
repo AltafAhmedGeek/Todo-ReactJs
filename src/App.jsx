@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 const App = () => {
   const formStyle = {
@@ -25,13 +28,38 @@ const App = () => {
     console.log(mainTask);
     setTitle("");
     setDesc("");
+    successNotify()
   };
   const handleDelete = (i) => {
     let copyTasks = [...mainTask];
     copyTasks.splice(i, 1);
     setMainTask(copyTasks);
+    failureNotify();
   };
   let renderTask = "No Task Available.";
+  const successNotify = () =>
+    toast.success("Task Added Successfully", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const failureNotify = () => {
+    toast.error("Data Deleted Successfully", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
   renderTask = mainTask.map((task, i) => {
     return (
       <div key={i} style={cardStyle}>
@@ -51,13 +79,18 @@ const App = () => {
             >
               Remove Task
             </button>
+            
           </div>
         </div>
       </div>
     );
   });
+  // const Allposts = () => {
+  //   axios.get
+  // }
   return (
     <>
+      <ToastContainer />
       <h1 className="bg-dark text-white p-3 fw-bold text-center">App</h1>
       <div className="container">
         <form style={formStyle} onSubmit={handleSubmit}>
@@ -71,7 +104,7 @@ const App = () => {
                 placeholder="Enter Task Here"
                 value={title}
                 required={true}
-                minLength={5}
+                // minLength={5}
                 onChange={(e) => {
                   setTitle(e.target.value);
                 }}
@@ -86,7 +119,7 @@ const App = () => {
                 placeholder="Enter Description Here"
                 value={desc}
                 required={true}
-                minLength={10}
+                // minLength={10}
                 onChange={(e) => {
                   setDesc(e.target.value);
                 }}
