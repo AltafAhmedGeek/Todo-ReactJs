@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -21,22 +21,40 @@ const App = () => {
   };
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+  // const [PostHead, setPostHead] = useState('')
+  // const [PostBody, setPostBody] = useState('')
   const [mainTask, setMainTask] = useState([]);
+  // const shortenString = (string) => {
+  //   if (true) {
+  //     return string.substring(0, 25) + "...";
+  //   } else {
+  //     return string;
+  //   }
+  // };
   const handleSubmit = (e) => {
     e.preventDefault();
-    setMainTask([...mainTask, { title, desc }]);
+    setMainTask([{ title, desc }, ...mainTask]);
     console.log(mainTask);
     setTitle("");
     setDesc("");
-    successNotify()
+    successNotify();
   };
   const handleDelete = (i) => {
+      const task = mainTask[i];
     let copyTasks = [...mainTask];
     copyTasks.splice(i, 1);
     setMainTask(copyTasks);
+    axios.delete(`https://jsonplaceholder.typicode.com/posts/${task.id}`);
     failureNotify();
   };
   let renderTask = "No Task Available.";
+  let renderPost = "No Post Available.";
+   const [Data, setData] = useState([]);
+   useEffect(() => {
+     axios.get("https://jsonplaceholder.typicode.com/posts").then((res) => {
+       setMainTask(res.data);
+     });
+   }, []);
   const successNotify = () =>
     toast.success("Task Added Successfully", {
       position: "top-right",
@@ -59,7 +77,31 @@ const App = () => {
       progress: undefined,
       theme: "light",
     });
-  }
+  };
+  //  renderPost = Data.map((task) => {
+  //    return (
+  //      <div  style={cardStyle}>
+  //        <div class="card m-2">
+  //          <div className="card-body">
+  //            <b className="card-title">{task.title)}</b>
+  //            <hr />
+  //            <p className="card-text">{task.body)}</p>
+  //          </div>
+  //          <div class="card-footer">
+  //            <button
+  //              className="btn btn-danger btn-block"
+  //              style={deleteBtn}
+  //              onClick={() => {
+                 
+  //              }}
+  //            >
+  //              Remove Task
+  //            </button>
+  //          </div>
+  //        </div>
+  //      </div>
+  //    );
+  //  });
   renderTask = mainTask.map((task, i) => {
     return (
       <div key={i} style={cardStyle}>
@@ -79,19 +121,15 @@ const App = () => {
             >
               Remove Task
             </button>
-            
           </div>
         </div>
       </div>
     );
   });
-  // const Allposts = () => {
-  //   axios.get
-  // }
+
   return (
     <>
       <ToastContainer />
-      <h1 className="bg-dark text-white p-3 fw-bold text-center">App</h1>
       <div className="container">
         <form style={formStyle} onSubmit={handleSubmit}>
           <div className="row">
@@ -132,7 +170,8 @@ const App = () => {
         </form>
         <hr />
         <div className="container">
-          <ul>{renderTask}</ul>
+          <span>{renderTask}</span>
+          {/* <span>{renderPost}</span> */}
         </div>
       </div>
     </>
