@@ -130,6 +130,7 @@ const App = () => {
   return (
     <>
       <ToastContainer />
+      <h1 className="bg-dark text-white p-3 fw-bold text-center">App</h1>
       <div className="container">
         <form style={formStyle} onSubmit={handleSubmit}>
           <div className="row">
