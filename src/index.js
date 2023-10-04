@@ -6,13 +6,14 @@ import reportWebVitals from './reportWebVitals';
 import Posts from './Posts';
 import NavBar from './NavBar';
 import { Router } from 'react-router';
-
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <NavBar/>
+    <BrowserRouter>
     <App />
+    </BrowserRouter>
     {/* <Posts/> */}
   </React.StrictMode>
 );

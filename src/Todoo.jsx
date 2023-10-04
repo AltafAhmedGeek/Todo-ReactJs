@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
-const App = () => {
+const Todo = () => {
   const formStyle = {
     maxWidth: "500px", // Set the maximum width for the form
     margin: "5% auto", // Center the form horizontally
@@ -179,4 +179,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Todo;
