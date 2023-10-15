@@ -14,23 +14,25 @@ const Todo = () => {
     width: "100%",
   };
   const cardStyle = {
-    width: "18rem",
-    display: "inline-block",
+    // width: "18rem",
+    // display: "inline-block",
+    // height:"400px"
     // display: "flex",
-    // flex:"justify-between"
+    // maxWidth: "18rem", // Optionally set a maximum width for each card
+    // marginRight: "10px",
   };
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   // const [PostHead, setPostHead] = useState('')
   // const [PostBody, setPostBody] = useState('')
   const [mainTask, setMainTask] = useState([]);
-  // const shortenString = (string) => {
-  //   if (true) {
-  //     return string.substring(0, 25) + "...";
-  //   } else {
-  //     return string;
-  //   }
-  // };
+  const shortenString = (string,num=25) => {
+    if (string.length>num) {
+      return string.substring(0, num) + "...";
+    } else {
+      return string;
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     setMainTask([{ title, desc }, ...mainTask]);
@@ -48,11 +50,14 @@ const Todo = () => {
     failureNotify();
   };
   let renderTask = "No Task Available.";
-  let renderPost = "No Post Available.";
-   const [Data, setData] = useState([]);
+  // let renderPost = "No Post Available.";
+  //  const [Data, setData] = useState([]);
    useEffect(() => {
      axios.get("https://jsonplaceholder.typicode.com/posts").then((res) => {
-       setMainTask(res.data);
+       //  console.log(res.data);
+       if (res) {
+         setMainTask(res.data);
+       }
      });
    }, []);
   const successNotify = () =>
@@ -104,12 +109,12 @@ const Todo = () => {
   //  });
   renderTask = mainTask.map((task, i) => {
     return (
-      <div key={i} style={cardStyle}>
+      <div key={i} style={cardStyle} className="col-4">
         <div class="card m-2">
           <div className="card-body">
-            <h5 className="card-title">{task.title}</h5>
+            <h5 className="card-title">{shortenString(task.title,20)}</h5>
             <hr />
-            <p className="card-text">{task.desc}</p>
+            <p className="card-text">{shortenString(task.desc || task.body)}</p>
           </div>
           <div class="card-footer">
             <button
@@ -170,8 +175,8 @@ const Todo = () => {
           </div>
         </form>
         <hr />
-        <div className="container">
-          <span>{renderTask}</span>
+        <div className="row">
+         {renderTask}
           {/* <span>{renderPost}</span> */}
         </div>
       </div>
