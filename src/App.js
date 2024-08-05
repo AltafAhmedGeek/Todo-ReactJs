@@ -15,10 +15,10 @@ const App = () => {
       path: "posts",
       element: <Posts />,
     },
-    {
-      path: "*",
-      element: <NotFound />,
-    },
+    // {
+    //   path: "*",
+    //   element: <NotFound />,
+    // },
   ]);
   return (
     <>
