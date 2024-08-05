@@ -7,7 +7,7 @@ const Posts = () => {
     axios.get("https://jsonplaceholder.typicode.com/posts").then((res) => {
       setData(res.data);
     });
-  }, []);
+  });
   return (
     <>
       {Data.map((data) => {
